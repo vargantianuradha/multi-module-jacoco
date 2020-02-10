@@ -20,8 +20,12 @@
     <sonar.organization>rsynek</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.login>5906ec382ed7e6318d0c882b85ff452e4e4d1548</sonar.login>
-    <aggregate.report.dir>moduleB/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+ <!--   <aggregate.report.dir>moduleB/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>-->
 
+    <!-- maven-suppress-warnings -->
+    <jacoco.exec.file>${maven.multiModuleProjectDirectory}/target/jacoco.exec</jacoco.exec.file>
+
+    <sonar.coverage.jacoco.xmlReportPaths>{maven.multiModuleProjectDirectory}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <modules>
@@ -55,11 +59,6 @@
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>0.8.4</version>
         </plugin>
-        <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.6.0.1398</version>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -72,6 +71,18 @@
             <goals>
               <goal>prepare-agent</goal>
             </goals>
+            <configuration>
+              <destFile>${jacoco.exec.file}</destFile>
+              <append>true</append>
+            </configuration>
+          </execution>
+          <execution>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>${jacoco.exec.file}</dataFile>
+            </configuration>
           </execution>
         </executions>
       </plugin>
