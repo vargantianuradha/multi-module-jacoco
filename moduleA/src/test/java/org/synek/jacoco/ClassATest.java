@@ -1,8 +1,7 @@
 package org.synek.jacoco;
 
-import org.junit.jupiter.api.Assertions;
-
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ClassATest {
 
@@ -10,6 +9,6 @@ public class ClassATest {
     public void stringNumberPow_validNumber() {
         ClassA a = new ClassA();
 
-        Assertions.assertEquals(25, a.stringNumberPow("5"));
+        Assert.assertEquals(25, a.stringNumberPow("5"));
     }
 }

@@ -9,11 +9,12 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
+  <artifactId>moduleA</artifactId>
+
+  <name>moduleA</name>
+
   <properties>
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
-
-  <groupId>org.synek.sonar.jacoco</groupId>
-  <artifactId>jacoco-module-a</artifactId>
 
 </project>
