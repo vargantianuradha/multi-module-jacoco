@@ -12,10 +12,14 @@
   <name>jacoco-multi-module</name>
 
   <properties>
-    <jacoco.agent.argLine/>
-    <jacoco.exec.file>${project.root.dir}/target/jacoco.exec</jacoco.exec.file>
-    <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+     <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>true</skip.integration.tests>
+        <itCoverageAgent></itCoverageAgent>
+        <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+        <my.project.version>1.0-SNAPSHOT</my.project.version>      
+           
     <!--suppress UnresolvedMavenProperty -->
     <project.root.dir>${maven.multiModuleProjectDirectory}</project.root.dir>
     <version.jacoco.plugin>0.8.5</version.jacoco.plugin>
@@ -38,6 +42,11 @@
   <build>
     <pluginManagement>
       <plugins>
+               <plugin>
+                    <groupId>nl.deholtmans</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.2</version>
@@ -46,31 +55,105 @@
             <argLine>@{jacoco.agent.argLine}</argLine>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${version.jacoco.plugin}</version>
-          <executions>
-            <execution>
-              <id>jacoco-prepare-agent</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <configuration>
-                <append>true</append>
-                <destFile>${jacoco.exec.file}</destFile>
-                <propertyName>jacoco.agent.argLine</propertyName>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-</project>
+       <plugins>
+            <!-- UNIT test 'mvn clean install' (optionally: -P dev) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <!-- When using '@Category( MyUnitTest.class)': MyUnitTest</groups>-->
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                    <!-- optional: works also when skipped -->
+                    <forkCount>1</forkCount>
+                </configuration>
+            </plugin>
+
+            <!-- INTEGRATION test via 'mvn clean install -P integration-test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>${skip.integration.tests}</skipTests>
+                            <includes>
+                                <include>**/*IntegrationTest.java</include>
+                            </includes>
+                            <!-- When using '@Categrory('MyIntegrationtest'): <groups>MyIntegrationTest</groups>-->
+                            <reuseForks>true</reuseForks>
+                            <argLine>${itCoverageAgent}</argLine>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- FINDSBUGS - code quality -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.4</version>
+            </plugin>
+
+            <!-- JACOCO - code coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <!-- METHOD 1 -->
+                        <!--<execution>-->
+                            <!--<id>prepare-agent</id>-->
+                            <!--<goals>-->
+                                <!--<goal>prepare-agent</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                        <!-- prepare agent for measuring unit tests -->
+
+                    <!-- METHOD 2 -->
+                    <execution>
+                        <id>prepare-unit-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <!--<configuration>-->
+                            <!--<destFile>${sonar.jacoco.reportPath}</destFile>-->
+                        <!--</configuration>-->
+                    </execution>
+
+                    <!-- prepare agent for measuring integration tests -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <!--<destFile>${sonar.jacoco.itReportPath}</destFile>-->
+                            <propertyName>itCoverageAgent</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>        
+               
+               
+               
+               
+               
+               
+               
+               
+               
+        
