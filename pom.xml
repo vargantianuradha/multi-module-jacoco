@@ -96,8 +96,7 @@
                 </configuration>
             </plugin>
         </plugins>
-             </build>         
-            </pluginManagement>
+             </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.jacoco</groupId>
