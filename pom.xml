@@ -16,10 +16,9 @@
 
     <!--<sonar.projectKey>org.synek.sonar.jacoco:jacoco-multi-module</sonar.projectKey> -->
     <sonar.organization>rsynek</sonar.organization>
-    <sonar.host.url>http://10.0.3.66:9000</sonar.host.url>
+    <sonar.host.url>http://10.0.3.66:9000/</sonar.host.url>
     <sonar.login>31a8f62b7ba5a43c76f3b1e0a20683d201beb6e2</sonar.login>
-    <aggregate.report.dir>jacoco-module-b/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-  </properties>
+     </properties>
 
   <modules>
     <module>jacoco-module-a</module>
