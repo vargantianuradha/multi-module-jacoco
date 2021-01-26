@@ -9,5 +9,5 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>jacoco-module-a</artifactId>
-         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        
 </project>
