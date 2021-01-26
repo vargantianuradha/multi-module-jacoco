@@ -11,12 +11,8 @@
 
   <properties>
     <version.org.junit>5.5.2</version.org.junit>
-
-    <jacoco.agent.argLine/>
-
-    <!--<sonar.projectKey>org.synek.sonar.jacoco:jacoco-multi-module</sonar.projectKey> -->
-    <sonar.organization>rsynek</sonar.organization>
-    <sonar.host.url>http://10.0.3.66:9000/</sonar.host.url>
+       <!--<sonar.projectKey>org.synek.sonar.jacoco:jacoco-multi-module</sonar.projectKey> -->
+     <sonar.host.url>http://10.0.3.66:9000/</sonar.host.url>
     <sonar.login>31a8f62b7ba5a43c76f3b1e0a20683d201beb6e2</sonar.login>
      </properties>
 
